@@ -4,6 +4,7 @@
   "description": "For HTTP requests",
   "main": "index.js",
   "scripts": {
+    "start": "node test/restfulApi.js",
     "test": "npm test"
   },
   "repository": {
@@ -11,5 +12,8 @@
     "url": "https://www.github.com/liyang0612/ajax-ly.git"
   },
   "author": "liyang <356514033@qq.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.16.3"
+  }
 }
