@@ -2,11 +2,16 @@ var express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
     errorHandle = require('./error/index'),
+    multer = require('multer'),
+    port = 9090,
+    url = 'http://localhost:' + port,
     app = express();
 
 app.use(express.static(path.join(__dirname, '/static')));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(multer); // for parsing multipart/form-data
+
 //404
 app.use(errorHandle.isNotFind)
 
@@ -20,4 +25,6 @@ app.post('/postTest', function (req, res) {
   res.end();
 })
 
-app.listen(9090);
+app.listen(port, function() {
+  console.log(url);
+});

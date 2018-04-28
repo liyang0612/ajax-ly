@@ -1,0 +1,22 @@
+{
+  "name": "ajax-ly",
+  "version": "1.0.0",
+  "description": "For HTTP requests",
+  "main": "index.js",
+  "scripts": {
+    "start": "node restfulApi.js",
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/liyang0612/ajax-ly.git"
+  },
+  "author": "liyang <356514033@qq.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "multer": "^1.3.0",
+    "path": "^0.12.7"
+  }
+}
