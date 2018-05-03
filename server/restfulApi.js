@@ -7,6 +7,12 @@ var express = require('express'),
     url = 'http://localhost:' + port,
     app = express();
 
+var commonJson = {
+  data: {},
+  success: true,
+  status: 1,
+  msg: 'success'
+}
 app.use(express.static(path.join(__dirname, '/static')));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -27,13 +33,13 @@ app.all('*', function (req, res, next) {
 app.use(errorHandle.isNotFind)
 
 app.get('/getTest', function (req, res) {
-  res.json({"get": "hello world"});
+  res.json(commonJson);
   res.end();
 })
 
 app.post('/postTest', function (req, res) {
-  console.log(req.body);
-  res.json({"msg": "application/json"});
+  commonJson.msg = "application/json"
+  res.json(commonJson);
   res.end();
 })
 

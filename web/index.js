@@ -1,5 +1,6 @@
-const ajaxLy = (url, callback) => {
-  let xmlHttp = '';
+const ajaxLy = (reqType, url, params, callback) => {
+  let xmlHttp = '',
+      contentType = 'application/json';
   if(window.XMLHttpRequest){
     xmlHttp = new XMLHttpRequest();
   }else {
@@ -10,9 +11,12 @@ const ajaxLy = (url, callback) => {
       callback(xmlHttp.responseText);
     }
   }
-  xmlHttp.open('POST', url, true);
-  xmlHttp.setRequestHeader('Content-type', 'application/json;charset=utf-8');
-  xmlHttp.send('msg=12&success=false');
+  xmlHttp.open(reqType, url, true);
+  // xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xmlHttp.setRequestHeader('Content-type', contentType);
+  xmlHttp.send(JSON.stringify(params));
+  // xmlHttp.send('msg=send&id=1')
 }
 
-ajaxLy("http://localhost:9090/postTest", (val) => {console.log(val)} );
+ajaxLy('post', "http://localhost:9090/postTest", { id: 1, name: 'liyang' }, (val) => {console.log(val)} );
+// ajaxLy("http://localhost:9090/getTest", (val) => { console.log(val) });
