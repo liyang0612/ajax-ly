@@ -8,6 +8,19 @@
   <script src="./index.js"></script>
 </head>
 <body>
-  
+  <div>asdfa
+    <form id="formSubmit" method="POST" action="http://localhost:9090/postTest">
+      <input name="id" type="text"/>
+      <input name="name" type="text"/>
+      <input type="submit" value="提交"/>
+    </form>
+  </div>
 </body>
+<script>
+  (function() {
+    window.onload = function() {
+      var form = document.getElementById('formSubmit');
+    }
+  })()
+</script>
 </html>

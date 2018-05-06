@@ -75,14 +75,14 @@ var ajax = init();
 
 
 
-ajax.get("http://localhost:9090/getTest", { id: 1, name: 'liyang' }, 'json').then((res) => {
-  console.log(res);
-}).catch(err => {
-  console.log(err);
-})
+// ajax.get("http://localhost:9090/getTest", { id: 1, name: 'liyang' }, 'json').then((res) => {
+//   console.log(res);
+// }).catch(err => {
+//   console.log(err);
+// })
 
-ajax.post("http://localhost:9090/postTest", { id: 1, name: 'liyang' }, 'json').then((res) => {
-  console.log(res);
-}).catch(err => {
-  console.log(err);
-})
+// ajax.post("http://localhost:9090/postTest", { id: 1, name: 'liyang' }, 'json').then((res) => {
+//   console.log(res);
+// }).catch(err => {
+//   console.log(err);
+// })
