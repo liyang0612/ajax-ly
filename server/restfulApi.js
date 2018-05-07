@@ -13,10 +13,10 @@ var commonJson = {
   status: 1,
   msg: 'success'
 }
+var upload = multer({dest: './uploads'});
 app.use(express.static(path.join(__dirname, '/static')));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-// app.use(multer()); // for parsing multipart/form-data
 
 //
 app.all('*', function (req, res, next) {
@@ -39,6 +39,13 @@ app.get('/getTest', function (req, res) {
 
 app.post('/postTest', function (req, res) {
   commonJson.msg = "application/json"
+  res.json(commonJson);
+  res.end();
+})
+
+app.post('/uploadFile', upload.single(), function(req, res, next) {
+  console.log(req.file);
+  commonJson.msg = "/uploads/";
   res.json(commonJson);
   res.end();
 })

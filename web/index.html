@@ -9,17 +9,19 @@
 </head>
 <body>
   <div>asdfa
-    <form id="formSubmit" method="POST" action="http://localhost:9090/postTest">
+    <form id="formSubmit" method="POST" action="http://localhost:9090/uploadFile" target="id_file_upload" enctype="multipart/form-data">
       <input name="id" type="text"/>
-      <input name="name" type="text"/>
+      <input type="file"/>
       <input type="submit" value="提交"/>
     </form>
+    <iframe name="id_file_upload"></iframe>
   </div>
 </body>
 <script>
   (function() {
     window.onload = function() {
       var form = document.getElementById('formSubmit');
+      // form.submit();
     }
   })()
 </script>
