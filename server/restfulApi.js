@@ -39,13 +39,16 @@ app.get('/getTest', function (req, res) {
 
 app.post('/postTest', function (req, res) {
   commonJson.msg = "application/json"
-  res.json(commonJson);
+  res.json(req.file);
   res.end();
 })
 
-app.post('/uploadFile', upload.single(), function(req, res, next) {
+app.post('/uploadFile', upload.single('file'), function(req, res, next) {
   console.log(req.file);
-  commonJson.msg = "/uploads/";
+  commonJson.data = {
+    id: req.body.id,
+    fileInfo: req.file,
+  }
   res.json(commonJson);
   res.end();
 })
