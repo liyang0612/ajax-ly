@@ -1,59 +1,26 @@
+var xhrAdatper = require('./xhr.js');
+
 function Ajax() {
-  this.defaultContentType = 'application/x-www-form-urlencoded';
+  this.defaultConfig = {};
+  this.defaultContentType = { 'Content-type': 'application/x-www-form-urlencoded' };
 }
-/*
-*@param { String, Object, String } url and params of http. data type of request
-*@return { Promise } 
-*/
-Ajax.prototype.post = function (url, params, dataType) {
-  var promise = new Promise((resolve, reject) => {
-    var xmlHttp = '';
-    if (window.XMLHttpRequest) {
-      xmlHttp = new XMLHttpRequest();
-    } else {
-      xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
-    }
-    xmlHttp.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        if (this.status === 200)
-          resolve(this.responseText)
-        else if (this.status !== 0)
-          reject(new Error(this.status));
-      }
-    }
-    xmlHttp.open('POST', url, true);
-    if (dataType === 'json') this.defaultContentType = 'application/json';
-    xmlHttp.setRequestHeader('Content-type', this.defaultContentType);
-    if(this.defaultContentType == 'application/json') xmlHttp.send(JSON.stringify(params));
-    else xmlHttp.send(this.getUrlencoeded(params));
-  })
-  return promise;
+
+Ajax.prototype.requtest = function(config) {
+  this.defaultConfig = JSON.parse(JSON.stringify(config));
+  this.defaultConfig.method = config.method.toLocaleUpperCase();
+  
+  if (this.defaultConfig.method === 'GET') {
+    this.defaultConfig.url = config.url + '?' + this.getUrlencoeded(config.params);
+  }
+
+  if (this.defaultConfig.method === 'POST') {
+    this.defaultConfig.headers = this.defaultContentType;
+    this.params = this.getUrlencoeded(params);
+  }
+
+  return xhrAdatper(this.defaultConfig);
 }
-/*
-*@param { String, Object } url and params of http.
-*@return { Promise } 
-*/
-Ajax.prototype.get = function (url, params) {
-  var promise = new Promise((resolve, reject) => {
-    var xmlHttp = '';
-    if (window.XMLHttpRequest) {
-      xmlHttp = new XMLHttpRequest();
-    } else {
-      xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
-    }
-    xmlHttp.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        if (this.status === 200)
-          resolve(this.responseText)
-        else if (this.status !== 0)
-          reject(new Error(this.status));
-      }
-    }
-    xmlHttp.open('GET', `${url}?${this.getUrlencoeded(params)}`, true);
-    xmlHttp.send();
-  })
-  return promise;
-}
+
 /*
 *@param { Object } url and params of http
 *@return { String } return urlencoeded string
@@ -75,11 +42,17 @@ var ajax = init();
 
 
 
-// ajax.get("http://localhost:9090/getTest", { id: 1, name: 'liyang' }, 'json').then((res) => {
-//   console.log(res);
-// }).catch(err => {
-//   console.log(err);
-// })
+ajax.requtest({
+  method: 'get',
+  url: 'http://localhost:9090/getTest',
+  params: {
+    x: 2, y: 1
+  }
+}).then((res) => {
+  console.log(res);
+}).catch(err => {
+  console.log(err);
+})
 
 // ajax.post("http://localhost:9090/postTest", { id: 1, name: 'liyang' }, 'json').then((res) => {
 //   console.log(res);
