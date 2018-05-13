@@ -4,18 +4,25 @@ function Ajax() {
   this.defaultConfig = {};
   this.defaultContentType = { 'Content-type': 'application/x-www-form-urlencoded' };
 }
-
+/*
+*@param { Object } config of http
+*@return { XHRHttpRqutest } return a XMLHttpRequest
+*/
 Ajax.prototype.requtest = function(config) {
   this.defaultConfig = JSON.parse(JSON.stringify(config));
   this.defaultConfig.method = config.method.toLocaleUpperCase();
   
-  if (this.defaultConfig.method === 'GET') {
-    this.defaultConfig.url = config.url + '?' + this.getUrlencoeded(config.params);
-  }
-
-  if (this.defaultConfig.method === 'POST') {
-    this.defaultConfig.headers = this.defaultContentType;
-    this.params = this.getUrlencoeded(params);
+  switch (this.defaultConfig.method) {
+    case 'GET':
+      this.defaultConfig.url = config.url + '?' + this.getUrlencoeded(config.params);
+      break;
+    case 'POST':
+      this.defaultConfig.headers = config.headers || this.defaultContentType;
+      if(this.defaultConfig.headers['Content-type'].indexOf('application/json') > -1)
+        this.defaultConfig.params = JSON.stringify(config.params);
+      else
+        this.defaultConfig.params = this.getUrlencoeded(config.params);
+      break;
   }
 
   return xhrAdatper(this.defaultConfig);
@@ -43,19 +50,16 @@ var ajax = init();
 
 
 ajax.requtest({
-  method: 'get',
-  url: 'http://localhost:9090/getTest',
+  method: 'post',
+  url: 'http://localhost:9090/postTest',
   params: {
     x: 2, y: 1
+  },
+  headers: {
+    'Content-type': 'application/json'
   }
 }).then((res) => {
   console.log(res);
 }).catch(err => {
   console.log(err);
 })
-
-// ajax.post("http://localhost:9090/postTest", { id: 1, name: 'liyang' }, 'json').then((res) => {
-//   console.log(res);
-// }).catch(err => {
-//   console.log(err);
-// })

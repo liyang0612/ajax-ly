@@ -15,7 +15,7 @@ module.exports = function xhrAdapter(config) {
       }
     }
     xmlHttp.open(config.method, config.url, config.async);
-    if(Object.prototype.toString.call(Object).slice(8, -1) === 'Object') {
+    if(Object.prototype.toString.call(config.headers).slice(8, -1) === 'Object') {
       for (let key in config.headers) {
         xmlHttp.setRequestHeader(key, config.headers[key]);
       }
