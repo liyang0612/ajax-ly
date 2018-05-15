@@ -8,16 +8,25 @@ function Ajax() {
 *@param { Object } config of http
 *@return { XHRHttpRqutest } return a XMLHttpRequest
 */
-Ajax.prototype.requtest = function(config) {
+Ajax.prototype.request = function(config) {
+  if (typeof config === 'undefined') throw new Error('arguments is undefined of request function');
+  if (typeof config.method === 'undefined') throw new Error('http method is undefind');
+
+  //deep copy
   this.defaultConfig = JSON.parse(JSON.stringify(config));
+  //convert to uppercase
   this.defaultConfig.method = config.method.toLocaleUpperCase();
   
   switch (this.defaultConfig.method) {
     case 'GET':
-      this.defaultConfig.url = config.url + '?' + this.getUrlencoeded(config.params);
+      if(config.params)
+        this.defaultConfig.url = config.url + '?' + this.getUrlencoeded(config.params);
+      else
+        this.defaultConfig.url = config.url
       break;
     case 'POST':
       this.defaultConfig.headers = config.headers || this.defaultContentType;
+      //根据不同的Content-type, send()方法接收不同格式的参数
       if(this.defaultConfig.headers['Content-type'].indexOf('application/json') > -1)
         this.defaultConfig.params = JSON.stringify(config.params);
       else
@@ -48,8 +57,8 @@ function init() {
 var ajax = init();
 
 
-
-ajax.requtest({
+//usage one
+ajax.request({
   method: 'post',
   url: 'http://localhost:9090/postTest',
   params: {
@@ -58,6 +67,15 @@ ajax.requtest({
   headers: {
     'Content-type': 'application/json'
   }
+}).then((res) => {
+  console.log(res);
+}).catch(err => {
+  console.log(err);
+})
+//usage two
+ajax.request({
+  method: 'get',
+  url: 'http://localhost:9090/getTest',
 }).then((res) => {
   console.log(res);
 }).catch(err => {
