@@ -8,10 +8,10 @@ module.exports = function xhrAdapter(config) {
     }
     xmlHttp.onreadystatechange = function () {
       if (this.readyState === 4) {
-        if (this.status >= 200 && this.status <= 300 || this.status ==== 304)
+        if (this.status >= 200 && this.status <= 300 || this.status === 304)
           resolve(this.responseText)
-        else if (this.status !== 0)
-          reject(new Error(this.status));
+        // else if (this.status !== 0)
+          // reject(new Error(this.status));
       }
     }
     xmlHttp.open(config.method, config.url, config.async);

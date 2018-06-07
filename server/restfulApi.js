@@ -1,5 +1,6 @@
 var express = require('express'),
     path = require('path'),
+    request = require('request');
     bodyParser = require('body-parser'),
     errorHandle = require('./error/index'),
     multer = require('multer'),
@@ -32,6 +33,28 @@ app.all('*', function (req, res, next) {
 //404
 app.use(errorHandle.isNotFind)
 
+app.get('/getWeather', function(req, res) {
+  console.log(req.query);
+  var url = 'http://localhost:9090/getTest';
+  var options = {
+    headers: { "Connection": "close" },
+    url: url,
+    method: 'get',
+    json: true,
+    body: {
+      sqlid: 'tme_servtopic.selectfilerecent',
+      userid: 45524,
+      servtype: 'MSP641520',
+      _dc: '1528273791641'
+    }
+  };
+  var callback = function (error, response, data) {
+    // console.log(response, data);
+    res.json(data);
+  }
+  request(options, callback);
+})
+
 app.get('/getTest', function (req, res) {
   res.json(commonJson);
   res.end();
@@ -52,6 +75,8 @@ app.post('/uploadFile', upload.single('file'), function(req, res, next) {
   res.json(commonJson);
   res.end();
 })
+
+
 
 app.listen(port, function() {
   console.log(url);
