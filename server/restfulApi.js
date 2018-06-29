@@ -56,6 +56,7 @@ app.get('/getWeather', function(req, res) {
 })
 
 app.get('/getTest', function (req, res) {
+  res.header('total', 135)
   res.json(commonJson);
   res.end();
 })

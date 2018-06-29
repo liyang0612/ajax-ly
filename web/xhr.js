@@ -7,9 +7,12 @@ module.exports = function xhrAdapter(config) {
       xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
     }
     xmlHttp.onreadystatechange = function () {
+      let responseCustom = {};
       if (this.readyState === 4) {
         if (this.status >= 200 && this.status <= 300 || this.status === 304)
-          resolve(this.responseText)
+        responseCustom.body = this.responseText;
+        responseCustom.headers = this.getAllResponseHeaders();
+          resolve(responseCustom);
         // else if (this.status !== 0)
           // reject(new Error(this.status));
       }
